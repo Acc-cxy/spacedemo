@@ -30,15 +30,15 @@ export default new Router({
         {
           path:'/bemyself',
           name:bemyself,
-          component: bemyself,
-          meta: {
-              requireAuth: true  //是否需要验证
-          }
+          component: bemyself
         },
         {
             path: '/space',
             name:space,
-            component: space
+            component: space,
+            meta: {
+                requireAuth: true  //是否需要验证
+            }
         },
         {
             path: '/login',

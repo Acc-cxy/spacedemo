@@ -3,11 +3,7 @@
         <el-row  type="flex" justify="center" >
           <el-col :span="15">
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item index="home">社区</el-menu-item>
-              <el-menu-item index="diary">日记</el-menu-item>
-              <el-menu-item index="bemyself">我的</el-menu-item>
-              <el-menu-item index="space">发表</el-menu-item>
-              <el-menu-item index="login">登录</el-menu-item>
+              <el-menu-item v-for="item in menuList" :key="item.index" :index="item.index">{{item.name}}</el-menu-item>
             </el-menu>
             <div class="islogin" @click="loginbtn()">
               <img v-bind:src="islogo">
@@ -23,14 +19,36 @@ export default {
   name: "HeadNav",
   data() {
     return {
-      activeIndex: 'home',
+      activeIndex: '1',
       islogo:icon,
       islogin:'未登入',
-      isoks:false
+      isoks:false,
+      menuList:[{
+        name:"社区",
+        index:"1",
+        path:"home"
+      },{
+        name:"日记",
+        index:"2",
+        path:"diary"
+      },{
+        name:"我的",
+        index:"3",
+        path:"bemyself"
+      },{
+        name:"发表",
+        index:"4",
+        path:"space"
+      }]
     };
   },
   created() {
     this.isok()
+    let currentIndex=localStorage.getItem('currentIndex')
+    console.log(currentIndex);
+    if(currentIndex){
+      this.activeIndex=currentIndex;
+    }
   },
   mounted() {
     this.$bus.$on("ams",()=>{
@@ -39,11 +57,12 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      this.$router.replace(key)
+      localStorage.setItem('currentIndex',key);
+      let path=this.menuList[key-1].path;
+      this.$router.replace(path);
     },
     loginbtn(){
       if(!this.isoks){
-        console.log(1)
         if(this.$route.path !== '/login'){
           this.$router.replace('/login')
         }

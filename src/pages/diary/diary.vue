@@ -13,21 +13,30 @@
 </template>
 
 <script>
-import {getdaylist} from "@/network/home"
+import {getdaylist} from "@/network/home";
+import {format} from "@/components/common";
+
 export default {
   name: "diary",
   data(){
     return{
-      daylist:''
+      daylist:'',
+      times:[]
     }
   },
   created() {
     this.getdaylist()
   },
+  computed: {
+
+  },
   methods:{
     getdaylist(){
-      getdaylist().then(res=>{
-        this.daylist = res.data
+      getdaylist().then(async res=>{
+        this.daylist = res.data;
+        await this.daylist.forEach(function (item){
+          item.createtime = format(item.createtime)
+        })
       })
     }
   }

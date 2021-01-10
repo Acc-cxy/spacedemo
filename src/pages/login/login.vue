@@ -59,11 +59,12 @@ export default {
       })
     },
     async isLogin(datas){
-     console.log(datas)
-      const res = await isLogins(datas)
+      const res = await this.$api.islogin(datas)
+      console.log(res)
+      // const res = await isLogins(datas)
       if(res.errno == 0){
         this.$message.success(`用户名：${this.ValidateForm.user}登入成功`)
-        sessionStorage.setItem("user", datas.username)//储存数据
+        // sessionStorage.setItem("user", datas.username)//储存数据
         this.$bus.$emit("ams")
         if (this.$route.query.redirect) { // 判断路由是否带参，带参则去到重定向参数地址，否则就去首页
           this.$router.replace({ path: this.$route.query.redirect}) // 跟main.js相对应，跳转到没有token的那个页面
