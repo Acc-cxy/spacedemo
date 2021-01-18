@@ -1,8 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-import fa from "element-ui/src/locale/lang/fa";
 
-axios.defaults.baseURL = "http://8.131.236.131:3000/api";
+axios.defaults.baseURL = "http://8.131.236.131:8003/api";
 axios.defaults.timeout = 10000;
 // axios.defaults.withCredentials = true;
 
@@ -20,7 +19,6 @@ axios.interceptors.request.use(config => {
         axios.defaults.headers['Content-Type'] = false;
     }
     if (config.method === 'post') {
-        config.data = config.data
         // config.data = qs.stringify(config.data)
     }
     return config

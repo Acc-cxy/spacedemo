@@ -1,8 +1,14 @@
 import axios from "./http"
 
 const api = {
-    getlist(){
-        return axios.get('/space/list')
+    getlistlength(){
+        return axios.get('/space/length')
+    },
+    getlist(id){
+        if(!id){
+            return axios.get('/space/limit')
+        }
+        return axios.get('/space/limit?limit='+ id)
     },
     islogin(data){
         return axios.post('/user/login',data)

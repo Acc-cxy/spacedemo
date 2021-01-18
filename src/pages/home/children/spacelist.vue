@@ -1,7 +1,7 @@
 <template>
 <div class="item">
   <div class="title">
-    <img :src="'http://space.linqinggan.top'+bloglist.photo" alt="">
+    <img :src="'http://space.linqinggan.top'+bloglist.icon" alt="#">
     <div>
       <p>{{bloglist.author !== null?bloglist.author:"匿名"}}</p>
       <span v-text="">{{ bloglist.createtime }}</span>
@@ -32,7 +32,9 @@ export default {
 <style scoped>
 .item{
   display: block;
-  margin-bottom: 20px;
+  margin-bottom:15px;
+  background: #ffffff;
+  padding: 20px;
 }
 .title{
   display: flex;

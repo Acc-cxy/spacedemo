@@ -2,11 +2,16 @@
   <el-main>
     <el-row  type="flex" justify="center" >
       <el-col :span="15">
-        <div v-for="item in daylist" :key="item.id" class="item">
-            <h2>{{item.title}}</h2>
-            <span class="author">{{item.author}}</span>
+        <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse-item
+              v-for="(item,index) in daylist" :key="item.id"
+              :title="item.title"
+              :name="index"
+              class="list-a">
+            <p>{{item.content}}</p>
             <span>{{item.createtime}}</span>
-        </div>
+          </el-collapse-item>
+        </el-collapse>
       </el-col>
     </el-row>
   </el-main>
@@ -21,7 +26,8 @@ export default {
   data(){
     return{
       daylist:'',
-      times:[]
+      times:[],
+      activeNames: [1,2]
     }
   },
   created() {
@@ -31,9 +37,12 @@ export default {
 
   },
   methods:{
+    handleChange(val) {
+      // console.log(val);
+    },
     getdaylist(){
       getdaylist().then(async res=>{
-        this.daylist = res.data;
+        this.daylist = await res.data;
         await this.daylist.forEach(function (item){
           item.createtime = format(item.createtime)
         })
@@ -44,18 +53,36 @@ export default {
 </script>
 
 <style scoped>
-  .item{
-    width: 100%;
-    padding: 15px 0;
-    border-bottom: 1px solid #ccc;
-    display: inline-block;
+  .el-main{
+    background: #ffffff;
   }
-  .item h2{
-    margin-bottom: 8px;
+  /*.item{*/
+  /*  width: 100%;*/
+  /*  padding: 15px 0;*/
+  /*  border-bottom: 1px solid #ccc;*/
+  /*  display: inline-block;*/
+  /*}*/
+  /*.item h2{*/
+  /*  margin-bottom: 8px;*/
+  /*}*/
+  /*.item .author{*/
+  /*  font-size: 14px;*/
+  /*  color: #999;*/
+  /*  margin-right: 6px;*/
+  /*}*/
+  .el-collapse-item__header{
+    font-size: 18px!important;
   }
-  .item .author{
-    font-size: 14px;
-    color: #999;
-    margin-right: 6px;
+  .list-a p,
+  .list-a span{
+    padding-left: 20px;
+  }
+  .list-a .el-collapse-item__header{
+    font-weight: 600;
+    font-size: 20px!important;
+  }
+
+  .list-a .el-collapse-item__content p{
+    font-size: 16px;
   }
 </style>

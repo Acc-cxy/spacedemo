@@ -2,7 +2,9 @@
   <div id="app">
     <el-container>
       <head-nav></head-nav>
-      <router-view></router-view>
+      <keep-alive>
+          <router-view></router-view>
+      </keep-alive>
     </el-container>
   </div>
 </template>
@@ -21,6 +23,7 @@ export default {
 
 <style>
   .el-container{
+    width: 100%;
     flex-wrap: wrap;
   }
 </style>

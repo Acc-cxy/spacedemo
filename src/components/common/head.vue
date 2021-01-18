@@ -2,19 +2,23 @@
       <el-header >
         <el-row  type="flex" justify="center" >
           <el-col :span="15">
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-              <el-menu-item v-for="item in menuList" :key="item.index" :index="item.index">{{item.name}}</el-menu-item>
+            <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
+              <el-menu-item v-for="item in menuList" :key="item.index" :index="item.path">{{item.name}}</el-menu-item>
+              <el-menu-item>
+                <div class="islogin" @click="loginbtn()">
+                  <el-avatar :size="36" :src="islogo" class="logo"></el-avatar>
+                  <span>{{islogin}}</span>
+                </div>
+              </el-menu-item>
             </el-menu>
-            <div class="islogin" @click="loginbtn()">
-              <img v-bind:src="islogo">
-              <span>{{islogin}}</span>
-            </div>
           </el-col>
         </el-row>
       </el-header>
 </template>
 <script>
 import icon from "@/assets/img/bemyself.jpg"
+import {GetUrlRelativePath} from "@/components/common/index";
+import {mapGetters} from "vuex"
 export default {
   name: "HeadNav",
   data() {
@@ -26,29 +30,32 @@ export default {
       menuList:[{
         name:"社区",
         index:"1",
-        path:"home"
+        path:"/home"
       },{
         name:"日记",
         index:"2",
-        path:"diary"
+        path:"/diary"
       },{
         name:"我的",
         index:"3",
-        path:"bemyself"
+        path:"/bemyself"
       },{
         name:"发表",
         index:"4",
-        path:"space"
-      }]
+        path:"/space"
+      },{
+        name:"登入",
+        index:"5",
+        path:"/login"
+      }],
+      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   created() {
-    this.isok()
-    let currentIndex=localStorage.getItem('currentIndex')
-    console.log(currentIndex);
-    if(currentIndex){
-      this.activeIndex=currentIndex;
-    }
+    this.isok();
+  },
+  computed:{
+    ...mapGetters(["getlogininfo"])
   },
   mounted() {
     this.$bus.$on("ams",()=>{
@@ -57,9 +64,9 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      localStorage.setItem('currentIndex',key);
-      let path=this.menuList[key-1].path;
-      this.$router.replace(path);
+      if(this.getlogininfo && keyPath[0] == "/login"){
+        this.$router.replace(key);
+      }
     },
     loginbtn(){
       if(!this.isoks){
@@ -71,10 +78,20 @@ export default {
     isok(){
       let isok = sessionStorage.user
       if(isok){
-        this.islogin = isok;
-        this.isoks = true
+        const isokarr = isok.split(",")
+        this.islogin = isokarr[0];
+        this.islogo = "http://space.linqinggan.top" + isokarr[1];
+        this.isoks = true;
       }
     }
+  },
+  watch:{
+    // getlogininfo:function (newval,oldval) {
+    //   if(newval.username){
+    //     this.islogin = newval.username
+    //     this.islogo = "http://space.linqinggan.top" + newval.avatar
+    //   }
+    // }
   }
 }
 </script>
@@ -85,9 +102,10 @@ export default {
   display: block;
   margin: 0 auto;
   padding: 0;
+  overflow: hidden;
 }
 .el-col{
-  position: relative;
+  /*position: relative;*/
 }
 .el-menu-demo{
   width: 80%;
@@ -95,17 +113,18 @@ export default {
   display: inline-block;
 }
 .islogin{
-  position: absolute;
-  right: 0;
-  top: 0;
+  /*position: absolute;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  margin:0 30px;
 }
-.islogin img{
-  width: 35px;
-  height: 35px;
+.islogin .logo{
   overflow: hidden;
   border-radius: 50%;
   margin-top: 11px;
   float: left;
+  margin-right: 5px;
+  background: 0;
 }
 .islogin span{
   line-height: 60px;
