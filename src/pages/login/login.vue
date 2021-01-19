@@ -62,7 +62,6 @@ export default {
   methods:{
     isuser:debounce(function (){
       if(this.ValidateForm.user.length<3){
-        console.log(val)
         this.$notify({title:'警告',message:'用户名格式错误',type:'warning'});
       }
     },1000),
