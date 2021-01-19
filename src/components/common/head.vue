@@ -58,7 +58,7 @@ export default {
     ...mapGetters(["getlogininfo"])
   },
   mounted() {
-    this.$bus.$on("ams",()=>{
+    this.$bus.$on("amsok",()=>{
       this.isok()
     })
   },

@@ -13,7 +13,7 @@ axios.defaults.timeout = 10000;
 
 
 axios.interceptors.request.use(config => {
-    if(config.url == "/user/login"){
+    if(config.url == "/user/login" || "/space/edit"){
         axios.defaults.headers['Content-Type'] = 'application/JSON';
     }else if(config.url == "/space/avatar"){
         axios.defaults.headers['Content-Type'] = false;

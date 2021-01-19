@@ -3,7 +3,7 @@
     <el-container>
       <head-nav></head-nav>
       <keep-alive>
-          <router-view></router-view>
+          <router-view v-if="isRouterAlive"></router-view>
       </keep-alive>
     </el-container>
   </div>
@@ -14,8 +14,26 @@ import HeadNav from "@/components/common/head";
 import "@/assets/css/index.css";
 export default {
   name: 'App',
+  provide(){
+    return{
+      reload:this.reload
+    }
+  },
+  data(){
+    return{
+      isRouterAlive:true
+    }
+  },
   components:{
     HeadNav
+  },
+  methods:{
+    reload(){
+      this.isRouterAlive = false;
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
   }
 }
 </script>

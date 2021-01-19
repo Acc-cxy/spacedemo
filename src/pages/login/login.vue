@@ -26,7 +26,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ValidateForm')">登录</el-button>
-              <el-button >注册</el-button>
+              <el-button @click="autopush()">一键注册</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -44,8 +44,8 @@ export default {
   data(){
     return{
       ValidateForm:{
-        user:'user',
-        password:'787878'
+        user:'',
+        password:''
       }
     }
   },
@@ -55,6 +55,9 @@ export default {
   created() {
   },
   mounted() {
+    this.$bus.$on("age",()=>{
+      this.submitForm('ValidateForm')
+    })
   },
   methods:{
     isuser:debounce(function (){
@@ -76,13 +79,16 @@ export default {
     },
     async isLogin(datas){
       const res = await this.$api.islogin(datas)
-      console.log(res)
       if(res.errno == 0){
         this.$store.commit('changlog',[res.data]);
         this.$notify({title:'成功',message:'登入成功',type:'success'});
-        sessionStorage.setItem("user", [res.data.username,res.data.avatar,res.data.id]);//储存数据
-        this.$bus.$emit("ams");
+        sessionStorage.setItem("user", [res.data.username,res.data.avatar,res.data.id,res.data.autograph]);//储存数据
+        this.$bus.$emit("amsok");
         if (this.$route.query.redirect) { // 判断路由是否带参，带参则去到重定向参数地址，否则就去首页
+          if(this.$route.query.redirect == '/bemyself'){
+            this.$router.replace({ path: this.$route.query.redirect + "?id=" +res.data.username});
+            return false;
+          }
           this.$router.replace({ path: this.$route.query.redirect}); // 跟main.js相对应，跳转到没有token的那个页面
         } else {
           this.$router.replace({ path:'/home'}); // 防止返回上一层页面
@@ -90,6 +96,10 @@ export default {
       }else {
         this.$notify.error({title:'错误',message:'登入失败'});
       }
+    },
+    autopush(){
+      this.ValidateForm.user = 'user';
+      this.ValidateForm.password = '787878'
     }
   },
   watch:{

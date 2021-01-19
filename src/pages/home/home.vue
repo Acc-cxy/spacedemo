@@ -17,8 +17,8 @@
             </el-pagination>
         </el-col>
         <el-col :span="2">
-          <el-badge value="new" class="item" @click="this.new">
-            <el-button size="small">新动态</el-button>
+          <el-badge value="new" class="item" v-if="newicon">
+            <el-button  size="small" @click="newreload()">新动态</el-button>
           </el-badge>
           <el-progress :percentage="50"></el-progress>
         </el-col>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import spacelist from "@/pages/home/children/spacelist.vue";
+import spacelist from "@/components/common/spacelist.vue";
 // import {getbloglist} from "@/network/home";
 import {format} from "@/components/common";
 
@@ -38,10 +38,11 @@ export default {
       bloglist:[],
       value:"halo",
       currentPage:0,
-      length:0
+      length:0,
+      newicon:false
     }
   },
-  inject:['reload'],
+  inject: ['reload'],
   components:{
     spacelist
   },
@@ -49,10 +50,24 @@ export default {
     this.getspacelist(1)
     this.getpage()
   },
+  mounted() {
+    this.$bus.$on("ams",()=>{
+      this.newicon = true
+    })
+  },
   methods:{
+    async newreload(){
+      // location.reload();
+      // this.$router.go(0);
+      // this.reload()
+      if(this.newicon != null){
+        this.getspacelist(1)
+        this.newicon = false
+      }
+    },
     async getpage(){
       this.length = (await this.$api.getlistlength()).data[0]["COUNT(id)"];
-      this.length = this.length*2;
+      this.length = this.length * 2;
     },
     handleCurrentChange(val){
       this.getspacelist(val)
@@ -61,22 +76,20 @@ export default {
       this.getspacelist(val)
     },
     async getspacelist(val){
-      const id = val * 5;
-      this.bloglist = await this.$api.getlist(id);
-      this.bloglist = this.bloglist.data;
+      const id = await (val-1) * 5;
+      this.bloglist = (await this.$api.getlimit(id)).data;
       await this.bloglist.forEach(function (item) {
         item.createtime = format(item.createtime)
       })
-    },
-    new(){
-      this.reload()
     }
   }
 }
 </script>
 
 <style scoped>
-  .el-progress{
-    margin-top: 30px;
+
+  .el-badge{
+    padding-left: 20px;
+    margin-bottom: 20px;
   }
 </style>

@@ -9,12 +9,13 @@
   </div>
   <div class="content">
     <span>{{bloglist.content}}</span>
-    <img :src="'http://space.linqinggan.top'+bloglist.photo" alt="">
+    <img v-image-preview :src="'http://space.linqinggan.top'+bloglist.photo" alt="">
   </div>
 </div>
 </template>
 
 <script>
+
 export default {
   name: "spacelist",
   props:{
@@ -24,8 +25,20 @@ export default {
         return {}
       }
     }
-  }
+  },
+  created() {
+    this.mylist()
+  },
+  computed:{
 
+  },
+  methods:{
+    mylist() {
+      // Object.keys(this.bloglist).forEach(function (key) {
+      //   console.log(key,this.bloglist)
+      // })
+    }
+  }
 }
 </script>
 
