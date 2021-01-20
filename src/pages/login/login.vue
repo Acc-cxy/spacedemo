@@ -35,9 +35,8 @@
   </el-main>
 </template>
 <script>
-import {isLogins} from "@/network/home";
 import {mapGetters} from 'vuex'
-import {debounce,throttle} from "@/components/common/specail";
+import {debounce} from "@/components/common/specail";
 
 export default {
   name: "login",
@@ -61,15 +60,15 @@ export default {
   },
   methods:{
     isuser:debounce(function (){
+      //如果用户名小于三位数
       if(this.ValidateForm.user.length<3){
         this.$notify({title:'警告',message:'用户名格式错误',type:'warning'});
       }
     },1000),
     async submitForm(formName){
-      let that = this ;
-      this.$refs[formName].validate((valid)=>{
+      this.$refs[formName].validate(()=>{
         if (!window.localStorage) {
-          alert(不支持浏览器)
+          alert("不支持浏览器")
         }else {
           let datas = {username:this.ValidateForm.user,password: this.ValidateForm.password}
           this.isLogin(datas)
@@ -77,10 +76,13 @@ export default {
       })
     },
     async isLogin(datas){
+      console.log(datas)
       const res = await this.$api.islogin(datas)
       if(res.errno == 0){
-        this.$store.commit('changlog',[res.data]);
-        this.$notify({title:'成功',message:'登入成功',type:'success'});
+        await this.$store.commit('changlog',[res.data]);
+        if(this.$route.path == '/login'){
+          this.$notify({title:'成功',message:'登入成功',type:'success'});
+        }
         sessionStorage.setItem("user", [res.data.username,res.data.avatar,res.data.id,res.data.autograph]);//储存数据
         this.$bus.$emit("amsok");
         if (this.$route.query.redirect) { // 判断路由是否带参，带参则去到重定向参数地址，否则就去首页
@@ -90,7 +92,11 @@ export default {
           }
           this.$router.replace({ path: this.$route.query.redirect}); // 跟main.js相对应，跳转到没有token的那个页面
         } else {
-          this.$router.replace({ path:'/home'}); // 防止返回上一层页面
+          if(this.$route.path == '/login'){
+            this.$router.replace({ path:'/home'}); // 防止返回上一层页面
+          }else {
+            this.$bus.$emit("bemyselfage")
+          }
         }
       }else {
         this.$notify.error({title:'错误',message:'登入失败'});

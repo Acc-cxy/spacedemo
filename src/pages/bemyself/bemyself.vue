@@ -79,6 +79,11 @@ export default {
   computed:{
     ...mapGetters(["getlogininfo"])
   },
+  mounted() {
+    this.$bus.$on("bemyselfage",()=>{
+      this.bemyself()
+    })
+  },
   methods:{
     async editinfo(){
       if(!this.getlogininfo[0]){
@@ -124,8 +129,8 @@ export default {
       await oMYform.append("userfile",myphoto);
       const res =await this.$api.avatar(oMYform);
       if(res.errCode){
-        this.$message.success(`上传头像成功`)
-        this.$bus.$emit("age")
+        this.$message.success(`上传头像成功`);
+        this.$bus.$emit("age");
       }
     },
     islogin(){

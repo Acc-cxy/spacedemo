@@ -10,8 +10,8 @@ export function debounce(func,delays){
 }
 
 export function throttle(func,delay){
-    let valid = true
-    let delays = 0
+    let valid = true;
+    let delays = 0;
     return function () {
         if(!valid){
             //休息时间 暂不接客
