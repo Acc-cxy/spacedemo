@@ -59,7 +59,7 @@ export default {
     })
   },
   methods:{
-    isuser:debounce(function (){
+    isuser:debounce(function (a){
       //如果用户名小于三位数
       if(this.ValidateForm.user.length<3){
         this.$notify({title:'警告',message:'用户名格式错误',type:'warning'});
@@ -76,7 +76,6 @@ export default {
       })
     },
     async isLogin(datas){
-      console.log(datas)
       const res = await this.$api.islogin(datas)
       if(res.errno == 0){
         await this.$store.commit('changlog',[res.data]);

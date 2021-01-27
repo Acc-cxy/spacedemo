@@ -12,6 +12,13 @@
           <span>{{this.icon}}</span>
           <input type="file" id="img-upload" ref="upload" @change="checkFile" style="display: none">
           <el-button type="success" @click="upload()" class="allbtn">发表动态</el-button>
+          <el-upload
+              class="avatar-uploader"
+              action=""
+              :http-request="uploads">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </div>
       </el-col>
     </el-row>
@@ -28,7 +35,8 @@ export default {
   data(){
     return{
       title:'',
-      icon:''
+      icon:'',
+      imageUrl: ''
     }
   },
   computed:{
@@ -42,7 +50,8 @@ export default {
       const myphoto = await this.$refs.upload.files[0];
       const title = await this.title;
       if(myphoto == '' || title == ''){
-          this.$message.warning(`图片或文案为空`)
+        this.$message.warning(`图片或文案为空`)
+        return false;
       }
       let isok = sessionStorage.user;
       const isokarr = isok.split(",");
@@ -64,6 +73,9 @@ export default {
     },
     checkFile(){
       this.icon = this.$refs.upload.files[0].name
+    },
+    uploads(param){
+      console.log(param.file)
     }
   }
 }
@@ -75,5 +87,31 @@ export default {
   }
   .allbtn{
     float: right;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .avatar-uploader{
+    display: none;
   }
 </style>

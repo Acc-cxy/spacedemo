@@ -5,12 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:test": "set NODE_ENV=test&&vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lint": " vue-cli-service eslint"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.8.2",
     "element-ui": "^2.14.1",
+    "nprogress": "^0.2.0",
     "qs": "^6.9.4",
     "vue": "^2.6.12",
     "vue-directive-image-previewer": "^2.2.2",

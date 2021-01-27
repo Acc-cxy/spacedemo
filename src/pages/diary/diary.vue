@@ -41,7 +41,7 @@ export default {
       // console.log(val);
     },
     getdaylist(){
-      getdaylist().then(async res=>{
+      getdaylist().then(async res =>{
         this.daylist = await res.data;
         await this.daylist.forEach(function (item){
           item.createtime = format(item.createtime)

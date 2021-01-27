@@ -17,7 +17,11 @@ Vue.use(router);
 import api from './network/httphome'
 Vue.prototype.$api = api;
 
+//进度条
+import NProgress from 'nprogress'
+
 router.beforeEach((to, from, next) => { // 无论刷新还是跳转路由，第一个进入的都是这个前置钩子函数
+  NProgress.start();
   let isok = sessionStorage.user;
   if(isok){
     if(to.fullPath == '/bemyself'){
@@ -39,6 +43,10 @@ router.beforeEach((to, from, next) => { // 无论刷新还是跳转路由，第�
   }else{
     next()
   }
+})
+
+router.afterEach(()=>{
+ NProgress.done()
 })
 
 new Vue({

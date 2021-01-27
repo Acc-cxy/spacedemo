@@ -4,7 +4,7 @@
     <img :src="'http://space.linqinggan.top'+bloglist.icon" alt="#">
     <div>
       <p>{{bloglist.author !== null?bloglist.author:"匿名"}}</p>
-      <span v-text="">{{ bloglist.createtime }}</span>
+      <span v-text="">{{ bloglist.createtime | formattime }}</span>
     </div>
   </div>
   <div class="content">
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import {format} from "@/components/common/index";
 
 export default {
   name: "spacelist",
@@ -28,6 +29,11 @@ export default {
   },
   created() {
     this.mylist()
+  },
+  filters:{
+    formattime:function (value) {
+      return format(value)
+    }
   },
   computed:{
 

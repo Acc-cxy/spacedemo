@@ -2,9 +2,11 @@
   <div id="app">
     <el-container>
       <head-nav></head-nav>
+      <transition>
       <keep-alive>
           <router-view v-if="isRouterAlive"></router-view>
       </keep-alive>
+      </transition>
     </el-container>
   </div>
 </template>
@@ -43,5 +45,11 @@ export default {
   .el-container{
     width: 100%;
     flex-wrap: wrap;
+  }
+  #nprogress .bar {
+    background: #29d !important;
+  }
+  [v-cloak] {
+    display: none;
   }
 </style>

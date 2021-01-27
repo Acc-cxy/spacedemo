@@ -143,9 +143,6 @@ export default {
     async mylist(author){
       const res = (await this.$api.getlist(author)).data;
       this.bloglist = res;
-      await this.bloglist.forEach(function (item) {
-        item.createtime = format(item.createtime)
-      })
     },
     handleClose(done) {
       // this.$confirm('确认关闭？')

@@ -6,6 +6,8 @@
                 v-for="item in bloglist"
                 :key="item.id"
                 :bloglist="item"
+                :dataindex="item.id"
+                @click.native="rko"
             ></spacelist>
             <el-pagination
                 background
@@ -78,16 +80,18 @@ export default {
     async getspacelist(val){
       const id = await (val-1) * 5;
       this.bloglist = (await this.$api.getlimit(id)).data;
-      await this.bloglist.forEach(function (item) {
-        item.createtime = format(item.createtime)
-      })
+      // await this.bloglist.forEach(function (item) {
+      //   item.createtime = format(item.createtime)
+      // })
+    },
+    rko(e){
+      // console.log(e.target.getAttribute("key"))
     }
   }
 }
 </script>
 
 <style scoped>
-
   .el-badge{
     padding-left: 20px;
     margin-bottom: 20px;
