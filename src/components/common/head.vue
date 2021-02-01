@@ -44,8 +44,12 @@ export default {
         index:"4",
         path:"/space"
       },{
-        name:"登入",
+        name: "新闻",
         index:"5",
+        path: "/echarts"
+      },{
+        name:"登入",
+        index:"6",
         path:"/login"
       }],
       circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"

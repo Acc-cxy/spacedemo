@@ -9,6 +9,9 @@ import VueDirectiveImagePreviewer from 'vue-directive-image-previewer'
 import 'vue-directive-image-previewer/dist/assets/style.css'
 Vue.use(VueDirectiveImagePreviewer)
 
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
+
 Vue.prototype.$bus =new Vue()
 Vue.config.productionTip = false
 Vue.use(router);
