@@ -8,6 +8,7 @@ import space from "@/pages/space/space";
 import login from "@/pages/login/login";
 import bemyself from "@/pages/bemyself/bemyself";
 import echarts from "@/pages/Echarts/echarts";
+import ANTVG6 from "@/pages/ANTVG6/ANTVG6";
 
 Vue.use(Router)
 Vue.use(ElementUI)
@@ -53,6 +54,11 @@ export default new Router({
             path: '/login',
             name: login,
             component: login
+        },
+        {
+            path:'/ANTVG6',
+            name:ANTVG6,
+            component:ANTVG6
         }
     ],
     mode: 'hash',

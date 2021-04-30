@@ -40,6 +40,10 @@ export default {
         index:"3",
         path:"/bemyself"
       },{
+        name:"G6",
+        index:"7",
+        path:"/ANTVG6"
+      },{
         name:"发表",
         index:"4",
         path:"/space"
