@@ -30,8 +30,6 @@
 
 <script>
 import spacelist from "@/components/common/spacelist.vue";
-// import {getbloglist} from "@/network/home";
-import {format} from "@/components/common";
 
 export default {
   name: "home",
